@@ -1,0 +1,677 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Python Final Project - Rara
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+paths:
+  /directors:
+    get:
+      operationId: directors.read_all
+      tags:
+        - Director
+      summary: Read the entire set of directors
+      description: Read the entire set of directors
+      responses:
+        200:
+          description: Successfully read directors set operation
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: integer
+                  description: Id of the director
+                name:
+                  type: string
+                  description: name of director
+                gender:
+                  type: integer
+                  description: gender of director
+                uid:
+                  type: integer
+                  description: uid of director
+                department:
+                  type: string
+                  description: department of director
+                movies:
+                  type: array
+                  items:
+                    properties:
+                      director_id:
+                        type: integer
+                        description: Id of director this movie is associated with
+                      id:
+                        type: integer
+                        description: Id of this movie
+                      original_title:
+                        type: string
+                        description: original title of this movie
+                      budget:
+                        type: integer
+                        description: budget of this movie
+                      popularity:
+                        type: integer
+                        description: popularity of this movie
+                      release_date:
+                        type: string
+                        description: released date of this movie
+                      revenue:
+                        type: integer
+                        description: revenue of this movie
+                      title:
+                        type: string
+                        description: title of this movie
+                      vote_average:
+                        type: number
+                        description: vote average score of this movie
+                      vote_count:
+                        type: integer
+                        description: vote count score of this movie
+                      overview:
+                        type: string
+                        description: an overview of this movie
+                      tagline: 
+                        type: string
+                        description: tagline of this movie
+                      uid:
+                        type: integer
+                        description: uid of this movie
+    post:
+      operationId: directors.create
+      tags:
+        - Director
+      summary: Create a director
+      description: Create a new director
+      parameters:
+        - name: director
+          in: body
+          description: director to create
+          required: True
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of director to create
+              department:
+                type: string
+                description: department of director to create
+              uid:
+                type: integer
+                description: uid of director to create
+              gender:
+                type: integer
+                description: gender of director to create
+      responses:
+        201:
+          description: Successfully created director
+          schema:
+            properties:
+              name:
+                type: string
+                description: name of director to create
+              department:
+                type: string
+                description: department of director to create
+              uid:
+                type: integer
+                description: uid of director to create
+              gender:
+                type: integer
+                description: gender of director to create
+  /directors/{director_id}:
+    get:
+      operationId: directors.read_one
+      tags:
+        - Director
+      summary: Read the entire set of directors
+      description: Read the entire set of directors
+      parameters:
+        - name: director_id
+          in: path
+          description: Id of the director to get
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read directors set operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Id of the director
+              name:
+                type: string
+                description: name of director
+              gender:
+                type: integer
+                description: gender of director
+              uid:
+                type: integer
+                description: uid of director
+              department:
+                type: string
+                description: department of director
+              movies:
+                type: array
+                items:
+                  properties:
+                    director_id:
+                      type: integer
+                      description: Id of director this movie is associated with
+                    id:
+                      type: integer
+                      description: Id of this movie
+                    original_title:
+                      type: string
+                      description: original title of this movie
+                    budget:
+                      type: integer
+                      description: budget of this movie
+                    popularity:
+                      type: integer
+                      description: popularity of this movie
+                    release_date:
+                      type: string
+                      description: released date of this movie
+                    revenue:
+                      type: integer
+                      description: revenue of this movie
+                    title:
+                      type: string
+                      description: title of this movie
+                    vote_average:
+                      type: number
+                      description: vote average score of this movie
+                    vote_count:
+                      type: integer
+                      description: vote count score of this movie
+                    overview:
+                      type: string
+                      description: an overview of this movie
+                    tagline: 
+                      type: string
+                      description: tagline of this movie
+                    uid:
+                      type: integer
+                      description: uid of this movie
+    put:
+      operationId: directors.update
+      tags:
+        - Director
+      summary: Update a director
+      description: Update a director
+      parameters:
+        - name: director_id
+          in: path
+          description: Id the director to update
+          type: integer
+          required: True
+        - name: director
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of director to update
+              department:
+                type: string
+                description: department of director to update
+              uid:
+                type: integer
+                description: uid of director to update
+              gender:
+                type: integer
+                description: gender of director to update
+      responses:
+        200:
+          description: Successfully updated director
+          schema:
+            properties:
+              person_id:
+                type: integer
+                description: Id of the director in the database
+              name:
+                type: string
+                description: name of director to update
+              department:
+                type: string
+                description: department of director to update
+              uid:
+                type: integer
+                description: uid of director to update
+              gender:
+                type: integer
+                description: gender of director to update
+    delete:
+      operationId: directors.delete
+      tags:
+        - Director
+      summary: Delete a director from the directors list
+      description: Delete a director
+      parameters:
+        - name: director_id
+          in: path
+          type: integer
+          description: Id of the director to delete
+          required: true
+      responses:
+        200:
+          description: Successfully deleted a director
+
+  #=====end of /directors
+  /movies:
+    get:
+      operationId: movies.read_all
+      tags:
+        - Movie
+      summary: Read the entire set of movies
+      description: Read the entire set of movies
+      responses:
+        200:
+          description: Successfully read movies set operation
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: integer
+                  description: Id of this movie
+                original_title:
+                  type: string
+                  description: original title of this movie
+                budget:
+                  type: integer
+                  description: budget of this movie
+                popularity:
+                  type: integer
+                  description: popularity of this movie
+                release_date:
+                  type: string
+                  description: released date of this movie
+                revenue:
+                  type: integer
+                  description: revenue of this movie
+                title:
+                  type: string
+                  description: title of this movie
+                vote_average:
+                  type: number
+                  description: vote average score of this movie
+                vote_count:
+                  type: integer
+                  description: vote count score of this movie
+                overview:
+                  type: string
+                  description: an overview of this movie
+                tagline: 
+                  type: string
+                  description: tagline of this movie
+                uid:
+                  type: integer
+                  description: uid of this movie
+                director_id:
+                  type: integer
+                  description: Id of director this movie is associated with
+                director:
+                  type: array
+                  items:
+                    properties:
+                      id:
+                        type: integer
+                        description: Id of the director this movie is associated with
+                      name:
+                        type: string
+                        description: name of director this movie is associated with
+                      gender:
+                        type: integer
+                        description: gender of director this movie is associated with
+                      uid:
+                        type: integer
+                        description: uid of director this movie is associated with
+                      department:
+                        type: string
+                        description: department of director this movie is associated with
+
+  /movies/{movie_id}:
+    get:
+      operationId: movies.read_one
+      tags:
+        - Movie
+      summary: Read the entire set of movies
+      description: Read the entire set of movies
+      parameters:
+        - name: movie_id
+          in: path
+          description: Id of the movie to get
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read movies set operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Id of this movie
+              original_title:
+                type: string
+                description: original title of this movie
+              budget:
+                type: integer
+                description: budget of this movie
+              popularity:
+                type: integer
+                description: popularity of this movie
+              release_date:
+                type: string
+                description: released date of this movie
+              revenue:
+                type: integer
+                description: revenue of this movie
+              title:
+                type: string
+                description: title of this movie
+              vote_average:
+                type: number
+                description: vote average score of this movie
+              vote_count:
+                type: integer
+                description: vote count score of this movie
+              overview:
+                type: string
+                description: an overview of this movie
+              tagline: 
+                type: string
+                description: tagline of this movie
+              uid:
+                type: integer
+                description: uid of this movie
+              director_id:
+                type: integer
+                description: Id of director this movie is associated with
+              director:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                      description: Id of the director this movie is associated with
+                    name:
+                      type: string
+                      description: name of director this movie is associated with
+                    gender:
+                      type: integer
+                      description: gender of director this movie is associated with
+                    uid:
+                      type: integer
+                      description: uid of director this movie is associated with
+                    department:
+                      type: string
+                      description: department of director this movie is associated with
+
+  /directors/{director_id}/movies:
+    post:
+      operationId: movies.create
+      tags:
+        - Movie
+      summary: Create a movie associated with a director
+      description: Create a movie associated with a director
+      parameters:
+        - name: director_id
+          in: path
+          description: Id of director associated with movie
+          type: integer
+          required: True
+        - name: movie
+          in: body
+          description: Text content of the movie to create
+          required: True
+          schema:
+            type: object
+            properties:
+              original_title:
+                type: string
+                description: original title of the movie to create
+              budget:
+                type: integer
+                description: budget of the movie to create
+              popularity:
+                type: integer
+                description: popularity of the movie to create
+              release_date:
+                type: string
+                description: release date of the movie to create
+              revenue:
+                type: integer
+                description: revenue of the movie to create
+              title: 
+                type: string
+                description: title of the movie to create
+              vote_average:
+                type: number
+                description: vote average score of the movie to create
+              vote_count:
+                type: integer
+                description: vote count score of the movie to create
+              overview:
+                type: string
+                description: overview of the movie to create
+              tagline:
+                type: string
+                description: a tagline of the movie to create
+              uid: 
+                type: integer
+                description: uid of the movie to create
+      responses:
+        201:
+          description: Successfully created a movie
+          schema:
+            properties:
+              director_id:
+                type: integer
+                description: Id of the director associated with the movie
+              id:
+                type: integer
+                description: Id of the created movie
+              original_title:
+                type: string
+                description: original title of the created movie
+              budget:
+                type: integer
+                description: budget of the created movie
+              popularity:
+                type: integer
+                description: popularity of the created movie
+              release_date:
+                type: string
+                description: release date of the created movie
+              revenue:
+                type: integer
+                description: revenue of the created movie
+              title: 
+                type: string
+                description: title of the created movie
+              vote_average:
+                type: number
+                description: vote average score of the created movie
+              vote_count:
+                type: integer
+                description: vote count score of the created movie
+              overview:
+                type: string
+                description: overview of the created movie
+              tagline:
+                type: string
+                description: a tagline of the created movie
+              uid: 
+                type: integer
+                description: uid of the created movie
+                
+  /directors/{director_id}/movies/{movie_id}:
+    put:
+      operationId: movies.update
+      tags:
+        - Movie
+      summary: Update a movie associated with a director
+      description: Update a movie associated with a director
+      parameters:
+        - name: director_id
+          in: path
+          description: Id the director to update
+          type: integer
+          required: True
+        - name: movie_id
+          in: path
+          description: Id of the movie associated with a director
+          type: integer
+          required: True
+        - name: movie
+          in: body
+          schema:
+            type: object
+            properties:
+              original_title:
+                type: string
+                description: original title of the movie to update
+              budget:
+                type: integer
+                description: budget of the movie to update
+              popularity:
+                type: integer
+                description: popularity of the movie to update
+              release_date:
+                type: string
+                description: release date of the movie to update
+              revenue:
+                type: integer
+                description: revenue of the movie to update
+              title: 
+                type: string
+                description: title of the movie to update
+              vote_average:
+                type: number
+                description: vote average score of the movie to update
+              vote_count:
+                type: integer
+                description: vote count score of the movie to update
+              overview:
+                type: string
+                description: overview of the movie to update
+              tagline:
+                type: string
+                description: a tagline of the movie to update
+              uid: 
+                type: integer
+                description: uid of the movie to update
+      responses:
+        200:
+          description: Successfully updated movie
+          schema:
+            properties:
+              id:
+                type: string
+                description: Id of the movie associated with a director
+              director_id:
+                type: integer
+                description: Id of the director in the database
+              original_title:
+                type: string
+                description: original title of the updated movie
+              budget:
+                type: integer
+                description: budget of the updated movie
+              popularity:
+                type: integer
+                description: popularity of the updated movie
+              release_date:
+                type: string
+                description: release date of the updated movie
+              revenue:
+                type: integer
+                description: revenue of the updated movie
+              title: 
+                type: string
+                description: title of the updated movie
+              vote_average:
+                type: number
+                description: vote average score of the updated movie
+              vote_count:
+                type: integer
+                description: vote count score of the updated movie
+              overview:
+                type: string
+                description: overview of the updated movie
+              tagline:
+                type: string
+                description: a tagline of the updated movie
+              uid: 
+                type: integer
+                description: uid of the updated movie
+
+    delete:
+      operationId: movies.delete
+      tags:
+        - Movie
+      summary: Delete a movie associated with a director
+      description: Delete a movie associated with a director
+      parameters:
+        - name: director_id
+          in: path
+          description: Id of director associated with movie
+          type: integer
+          required: True
+        - name: movie_id
+          in: path
+          description: Id of movie
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully deleted a movie
+    
+    get:
+      operationId: movies.read_one_details
+      tags:
+        - Movie
+      summary: Read a particular movie associated with a director
+      description: Read a particular movie associated with a director
+      parameters:
+        - name: director_id
+          in: path
+          description: Id of director associated with movie
+          type: integer
+          required: True
+        - name: movie_id
+          in: path
+          description: Id of movie
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read movie for a director
+          schema:
+            type: object
+            properties:
+              note_id:
+                type: integer
+                description: Id of the movie
+              person_id:
+                type: integer
+                description: Id of the director movie associated with
+              content:
+                type: string
+                description: Text content of the movie
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the movie record
