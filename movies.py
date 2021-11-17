@@ -204,7 +204,7 @@ def delete(director_id, movie_id):
         return make_response(
             jsonify(
                 {
-                    "message": "Movie {movie_id} deleted"
+                    "message": f"Movie {movie_id} deleted"
                 }
             ),
             200
