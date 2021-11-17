@@ -38,11 +38,11 @@ class Director(db.Model):
                 status=400,
                 description="uid can't be empty"
             )
-        if Director.query.filter(Director.uid == uid).first():
-            abort(
-                status=400,
-                description=f"director with uid {uid} already exists, please insert another value"
-            )
+        # if Director.query.filter(Director.uid == uid).first():
+        #     abort(
+        #         status=400,
+        #         description=f"director with uid {uid} already exists, please insert another value"
+        #     )
         return uid
 
     @validates('name')
@@ -57,11 +57,11 @@ class Director(db.Model):
                 status=400,
                 description='name must be between 5 and 20 characters'
             )
-        if Director.query.filter(Director.name == name).first():
-            abort(
-                status=400,
-                description=f"director with name {name} already exists, please insert another value"
-            )
+        # if Director.query.filter(Director.name == name).first():
+        #     abort(
+        #         status=400,
+        #         description=f"director with name {name} already exists, please insert another value"
+        #     )
         return name
     
     @validates('departement')
@@ -100,11 +100,11 @@ class Movie(db.Model):
                 status=400,
                 description="uid can't be empty"
             )
-        if Director.query.filter(Movie.uid == uid).first():
-            abort(
-                status=400,
-                description=f"movie with uid {uid} already exists, please insert another value"
-            )
+        # if Director.query.filter(Movie.uid == uid).first():
+        #     abort(
+        #         status=400,
+        #         description=f"movie with uid {uid} already exists, please insert another value"
+        #     )
         return uid
     
     @validates('release_date')

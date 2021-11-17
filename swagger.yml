@@ -231,6 +231,9 @@ paths:
               gender:
                 type: integer
                 description: gender of director to update
+              uid:
+                type: integer
+                description: uid of director to update
       responses:
         200:
           description: Successfully updated director
@@ -648,6 +651,9 @@ paths:
               tagline:
                 type: string
                 description: a tagline of the movie to update
+              uid:
+                type: integer
+                description: uid of the movie to update
           
       responses:
         200:
