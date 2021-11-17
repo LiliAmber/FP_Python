@@ -83,6 +83,7 @@ paths:
                       uid:
                         type: integer
                         description: uid of this movie
+    
     post:
       operationId: directors.create
       tags:
@@ -126,6 +127,7 @@ paths:
               gender:
                 type: integer
                 description: gender of director to create
+                
   /directors/{director_id}:
     get:
       operationId: directors.read_one

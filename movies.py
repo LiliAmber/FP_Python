@@ -1,20 +1,20 @@
 """
 This is the people module and supports all the REST actions for the
-MOVIESs data
+movies data
 """
 
-from flask import make_response, abort
+from flask import make_response, abort, jsonify
 from config import db
 from models import Director, Movie, MovieSchema, MovieDirectorSchema
 
 def read_all():
     """
-    This function responds to a request for /api/MOVIES
+    This function responds to a request for /api/movies
     with the complete lists of movies
     :return:        json string of list of movies
     """
     # Create the list of movies from our data
-    movies = Movie.query.order_by(Movie.id).all()
+    movies = Movie.query.order_by(Movie.id).limit(15).all()
 
     # Serialize the data for the response
     movie_schema = MovieSchema(many=True)
@@ -23,10 +23,10 @@ def read_all():
 
 def read_one(movie_id):
     """
-    This function responds to a request for /api/people/{movie_id}
-    with one matching person from people
-    :param movie_id:   Id of person to find
-    :return:            person matching id
+    This function responds to a request for /api/movies/{movie_id}
+    with one matching movie from movies
+    :param movie_id:   Id of movie to find
+    :return:            movie matching id
     """
     # Build the initial query
     movie = (
@@ -43,23 +43,29 @@ def read_one(movie_id):
         data = movie_schema.dump(movie)
         return data
 
-    # Otherwise, nope, didn't find that person
+    # Otherwise, nope, didn't find that movie
     else:
-        abort(404, f"Director not found for Id: {movie_id}")
+        abort(
+            status=400,
+            description=f"Couldn't find movie with id {movie_id}"
+        )
 
 def create(director_id, movie):
     """
-    This function creates a new movie related to the passed in person id.
-    :param director_id:       Id of the person the movie is related to
+    This function creates a new movie related to the passed in director id.
+    :param director_id:       Id of the director the movie is related to
     :param movie:            The JSON containing the movie data
     :return:                201 on success
     """
-    # get the parent person
+    # get the parent director
     director = Director.query.filter(Director.id == director_id).one_or_none()
 
     # Was a director found?
     if director is None:
-        abort(404, f"Director not found for Id: {director_id}")
+        abort(
+            status=400,
+            description=f"Couldn't find director with id {director_id}"
+        )
 
     # Create a movie schema instance
     schema = MovieSchema()
@@ -77,13 +83,13 @@ def create(director_id, movie):
 def read_one_details(director_id, movie_id):
     """
     This function responds to a request for
-    /api/people/{director_id}/notes/{movie_id}
-    with one matching note for the associated person
-    :param director_id:       Id of person the note is related to
-    :param movie_id:         Id of the note
-    :return:                json string of note contents
+    /api/directors/{director_id}/movies/{movie_id}
+    with one matching movie for the associated director
+    :param director_id:       Id of director the movie is related to
+    :param movie_id:         Id of the movie
+    :return:                json string of movie contents
     """
-    # Query the database for the note
+    # Query the database for the movie
     movie = (
         Movie.query.join(Director, Director.id == Movie.director_id)
         .filter(Director.id == director_id)
@@ -97,17 +103,20 @@ def read_one_details(director_id, movie_id):
         data = note_schema.dump(movie)
         return data
 
-    # Otherwise, nope, didn't find that note
+    # Otherwise, nope, didn't find that movie
     else:
-        abort(404, f"Movie not found for Id: {movie_id}")
+        abort(
+            status=400,
+            description=f"Couldn't find movie with id {movie_id}"
+        )
 
 def update(director_id, movie_id, movie):
     """
     This function updates an existing movie related to the passed in
-    person id.
-    :param director_id:       Id of the person the movie is related to
+    director id.
+    :param director_id:       Id of the director the movie is related to
     :param movie_id:         Id of the movie to update
-    :param content:            The JSON containing the movie data
+    :param movie:            The JSON containing the movie data
     :return:                200 on success
     """
     update_movie = (
@@ -136,18 +145,21 @@ def update(director_id, movie_id, movie):
 
         return data, 200
 
-    # Otherwise, nope, didn't find that note
+    # Otherwise, nope, didn't find that movie
     else:
-        abort(404, f"Movie not found for Id: {movie_id}")
+        abort(
+            status=400,
+            description=f"Couldn't find movie with id {movie_id}"
+        )
 
 def delete(director_id, movie_id):
     """
-    This function deletes a note from the note structure
-    :param director_id:   Id of the person the note is related to
-    :param movie_id:     Id of the note to delete
+    This function deletes a movie from the movie structure
+    :param director_id:   Id of the director the movie is related to
+    :param movie_id:     Id of the movie to delete
     :return:            200 on successful delete, 404 if not found
     """
-    # Get the note requested
+    # Get the movie requested
     movie = (
         Movie.query.filter(Director.id == director_id)
         .filter(Movie.id == movie_id)
@@ -158,10 +170,20 @@ def delete(director_id, movie_id):
     if movie is not None:
         db.session.delete(movie)
         db.session.commit()
+        # return make_response(
+        #     "Movie {movie_id} deleted".format(movie_id=movie_id), 200
+        # )
         return make_response(
-            "Movie {movie_id} deleted".format(movie_id=movie_id), 200
+            jsonify(
+                {
+                    "message": "Movie {movie_id} deleted"
+                }
+            ),
+            200
         )
-
     # Otherwise, nope, didn't find that movie
     else:
-        abort(404, f"Note not found for Id: {movie_id}")
+        abort(
+            status=400,
+            description=f"Couldn't find movie with id {movie_id}"
+        )
