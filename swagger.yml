@@ -133,8 +133,8 @@ paths:
       operationId: directors.read_one
       tags:
         - Director
-      summary: Read the entire set of directors
-      description: Read the entire set of directors
+      summary: Read the selected directors by id
+      description: Read the selected directors by id
       parameters:
         - name: director_id
           in: path
@@ -349,8 +349,8 @@ paths:
       operationId: movies.read_one
       tags:
         - Movie
-      summary: Read the entire set of movies
-      description: Read the entire set of movies
+      summary: Read the selected movies by id
+      description: Read the selected movies by id
       parameters:
         - name: movie_id
           in: path
@@ -427,8 +427,8 @@ paths:
       operationId: movies.read_by_name
       tags:
         - Movie
-      summary: Read the entire set of movies
-      description: Read the entire set of movies
+      summary: Read a particular movies filtered by title
+      description: Read a particular movies filtered by title
       parameters:
         - name: movie_name
           in: path
