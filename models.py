@@ -36,7 +36,7 @@ class Director(db.Model):
         if not uid:
             abort(
                 status=400,
-                description="uid van't be empty"
+                description="uid can't be empty"
             )
         if Director.query.filter(Director.uid == uid).first():
             abort(

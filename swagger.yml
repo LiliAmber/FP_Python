@@ -127,7 +127,7 @@ paths:
               gender:
                 type: integer
                 description: gender of director to create
-                
+
   /directors/{director_id}:
     get:
       operationId: directors.read_one
@@ -356,6 +356,84 @@ paths:
           in: path
           description: Id of the movie to get
           type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read movies set operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Id of this movie
+              original_title:
+                type: string
+                description: original title of this movie
+              budget:
+                type: integer
+                description: budget of this movie
+              popularity:
+                type: integer
+                description: popularity of this movie
+              release_date:
+                type: string
+                description: released date of this movie
+              revenue:
+                type: integer
+                description: revenue of this movie
+              title:
+                type: string
+                description: title of this movie
+              vote_average:
+                type: number
+                description: vote average score of this movie
+              vote_count:
+                type: integer
+                description: vote count score of this movie
+              overview:
+                type: string
+                description: an overview of this movie
+              tagline: 
+                type: string
+                description: tagline of this movie
+              uid:
+                type: integer
+                description: uid of this movie
+              director_id:
+                type: integer
+                description: Id of director this movie is associated with
+              director:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                      description: Id of the director this movie is associated with
+                    name:
+                      type: string
+                      description: name of director this movie is associated with
+                    gender:
+                      type: integer
+                      description: gender of director this movie is associated with
+                    uid:
+                      type: integer
+                      description: uid of director this movie is associated with
+                    department:
+                      type: string
+                      description: department of director this movie is associated with
+
+  /movies/name/{movie_name}:
+    get:
+      operationId: movies.read_by_name
+      tags:
+        - Movie
+      summary: Read the entire set of movies
+      description: Read the entire set of movies
+      parameters:
+        - name: movie_name
+          in: path
+          description: name of the movie to get
+          type: string
           required: True
       responses:
         200:

@@ -50,6 +50,34 @@ def read_one(movie_id):
             description=f"Couldn't find movie with id {movie_id}"
         )
 
+def read_by_name(movie_name):
+    """
+    This function responds to a request for /api/movies/name/{movie_name}
+    with one matching movie from movies
+    :param movie_name:   title of movie to find
+    :return:            movie matching title
+    """
+    # Build the initial query
+    search = "%{}%".format(movie_name)
+    movie = (
+        Movie.query.filter(Movie.title.like(search))
+        .outerjoin(Director)
+        .one_or_none()
+    )
+
+    # Did we find a movie?
+    if movie is not None:
+        # Serialize the data for the response
+        movie_schema = MovieSchema()
+        data = movie_schema.dump(movie)
+        return data
+    # Otherwise, nope, didn't find that movie
+    else:
+        abort(
+            status=400,
+            description=f"Couldn't find movie with title {movie_name}"
+        )
+
 def create(director_id, movie):
     """
     This function creates a new movie related to the passed in director id.
