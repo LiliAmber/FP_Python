@@ -39,8 +39,8 @@ def read_one(director_id):
     if director is not None:
 
         # Serialize the data for the response
-        movie_schema = DirectorSchema()
-        data = movie_schema.dump(director)
+        director_schema = DirectorSchema()
+        data = director_schema.dump(director)
         return data
 
     # Otherwise, nope, didn't find that director
@@ -48,6 +48,34 @@ def read_one(director_id):
         abort(
             status=400,
             description=f"Couldn't find director with id {director_id}"
+        )
+
+def read_by_name(director_name):
+    """
+    This function responds to a request for /api/directors/name/{director_name}
+    with one matching movie from movies
+    :param movie_name:   title of movie to find
+    :return:            movie matching title
+    """
+    # Build the initial query
+    search = "%{}%".format(director_name)
+    director = (
+        Director.query
+        .filter(Director.name.like(search))
+        .all()
+    )
+
+    # did we find the director?
+    if director is not None:
+        director_schema = DirectorSchema(many=True)
+        data = director_schema.dump(director)
+        return data
+
+    # otherwise, nope, didn't find that director
+    else:
+        abort(
+            status=400,
+            description=f"couldn't find director with name {director_name}"
         )
 
 def create(director):

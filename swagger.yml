@@ -269,7 +269,84 @@ paths:
       responses:
         200:
           description: Successfully deleted a director
-
+  
+  /directors/name/{director_name}:
+    get:
+      operationId: directors.read_by_name
+      tags:
+        - Director
+      summary: Read the selected directors by name
+      description: Read the selected directors by name
+      parameters:
+        - name: director_name
+          in: path
+          description: name of the director to get
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read directors set operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Id of the director
+              name:
+                type: string
+                description: name of director
+              gender:
+                type: integer
+                description: gender of director
+              uid:
+                type: integer
+                description: uid of director
+              department:
+                type: string
+                description: department of director
+              movies:
+                type: array
+                items:
+                  properties:
+                    director_id:
+                      type: integer
+                      description: Id of director this movie is associated with
+                    id:
+                      type: integer
+                      description: Id of this movie
+                    original_title:
+                      type: string
+                      description: original title of this movie
+                    budget:
+                      type: integer
+                      description: budget of this movie
+                    popularity:
+                      type: integer
+                      description: popularity of this movie
+                    release_date:
+                      type: string
+                      description: released date of this movie
+                    revenue:
+                      type: integer
+                      description: revenue of this movie
+                    title:
+                      type: string
+                      description: title of this movie
+                    vote_average:
+                      type: number
+                      description: vote average score of this movie
+                    vote_count:
+                      type: integer
+                      description: vote count score of this movie
+                    overview:
+                      type: string
+                      description: an overview of this movie
+                    tagline: 
+                      type: string
+                      description: tagline of this movie
+                    uid:
+                      type: integer
+                      description: uid of this movie
   #=====end of /directors
   /movies:
     get:

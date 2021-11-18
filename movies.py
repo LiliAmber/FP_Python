@@ -59,16 +59,25 @@ def read_by_name(movie_name):
     """
     # Build the initial query
     search = "%{}%".format(movie_name)
+    # movie = (
+    #     Movie.query.filter(Movie.title.like(search))
+    #     .outerjoin(Director)
+    #     .one_or_none()
+    # )
+
     movie = (
-        Movie.query.filter(Movie.title.like(search))
-        .outerjoin(Director)
-        .one_or_none()
+        Movie.query.join(Director)
+        .filter(Movie.title.like(search))
+        .filter(Director.id == Movie.director_id)
+        .all()
     )
+
 
     # Did we find a movie?
     if movie is not None:
         # Serialize the data for the response
-        movie_schema = MovieSchema()
+        movie_schema = MovieSchema(many=True)
+        # movie_schema = MovieSchema()
         data = movie_schema.dump(movie)
         return data
     # Otherwise, nope, didn't find that movie
